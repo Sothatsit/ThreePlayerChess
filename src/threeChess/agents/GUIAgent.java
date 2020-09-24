@@ -18,6 +18,11 @@ public class GUIAgent extends Agent {
     this("GUI Agent");
   }
 
+  @Override
+  public GUIAgent clone() {
+    return new GUIAgent();
+  }
+
   public GUIAgent(String name) {
     this.name = name;
     System.out.println(

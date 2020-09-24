@@ -1,5 +1,7 @@
 package threeChess;
 
+import threeChess.agents.GameLogic;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,12 +26,14 @@ public class ThreeChessDisplay extends JFrame {
   private static final int AGENTS_FONTSIZE = 24;
   private static final int PIECE_FONTSIZE = 32;
   private static final int CAPTURED_FONTSIZE = 24;
+  private static final int DEBUG_FONTSIZE = 16;
   private static final int AGENT_NAME_MAX_LENGTH = 20;
   private static final int CAPTURED_PER_ROW = 11;
   private static final int HISTORY_CYCLE_CORNER_SIZE = 100;
   private static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
   private final Square[] squares;
   private final String[] players;
+  private final Agent[] agents;
   private final Canvas canvas;
   private final Board board;
   private final int size = 800;
@@ -159,11 +163,11 @@ public class ThreeChessDisplay extends JFrame {
   /**
    * Creates a graphical representation of a threeChess board
    * @param board the game state to be represented
-   * @param bluePlayer the name of the blue player
-   * @param greenPlayer the name of the green player
-   * @param redPlayer the name of the red player
+   * @param blueAgent the blue player
+   * @param greenAgent the green player
+   * @param redAgent the red player
    * **/  
-  public ThreeChessDisplay(Board board, String bluePlayer, String greenPlayer, String redPlayer){
+  public ThreeChessDisplay(Board board, Agent blueAgent, Agent greenAgent, Agent redAgent){
     super("ThreeChess");
     this.board = board;
 
@@ -200,11 +204,15 @@ public class ThreeChessDisplay extends JFrame {
 
     setFlanks(size);
     players = new String[3];
+    agents = new Agent[3];
     squares = new Square[96];
     for(int i=0; i<96; i++) squares[i] = new Square(Position.values()[i]);
-    players[0] = truncateBelowLength(bluePlayer, AGENT_NAME_MAX_LENGTH);
-    players[1] = truncateBelowLength(greenPlayer, AGENT_NAME_MAX_LENGTH);
-    players[2] = truncateBelowLength(redPlayer, AGENT_NAME_MAX_LENGTH);
+    players[0] = truncateBelowLength(blueAgent.toString(), AGENT_NAME_MAX_LENGTH);
+    players[1] = truncateBelowLength(greenAgent.toString(), AGENT_NAME_MAX_LENGTH);
+    players[2] = truncateBelowLength(redAgent.toString(), AGENT_NAME_MAX_LENGTH);
+    agents[0] = blueAgent;
+    agents[1] = greenAgent;
+    agents[2] = redAgent;
     repaintCanvas();
   }
 
@@ -424,6 +432,21 @@ public class ThreeChessDisplay extends JFrame {
       drawArrow(g, new int[] {2*unit, 2*unit, unit}, new int[] {5*unit/3, unit, unit}, 2); // Back button.
       drawArrow(g, new int[] {x+unit, x+unit, x+2*unit}, new int[] {5*unit/3, unit, unit}, 2); // Forward button.
     }
+
+    // Draw the debug info from the agents.
+    g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, DEBUG_FONTSIZE));
+    StringBuilder debugStr = new StringBuilder();
+    for (Agent agent : agents) {
+      String info = agent.getDebugInfo(board);
+      if (info.length() > 0) {
+        if (debugStr.length() > 0) {
+          debugStr.append(", ");
+        }
+        debugStr.append(info);
+      }
+    }
+    FontMetrics metrics = g.getFontMetrics();
+    g.drawString(debugStr.toString(), size/2 - metrics.stringWidth(debugStr.toString())/2, size - 50);
   }
 
   private static void drawArrow(Graphics2D g, Square from, Square to, int strokeWidth) {

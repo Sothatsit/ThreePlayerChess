@@ -69,7 +69,7 @@ public class Board implements Cloneable, Serializable {
   public Set<Position> getPositions(Colour player){
     HashSet<Position> positions = new HashSet<Position>();
     for(Position p : Position.values()){
-      if(board.containsKey(p) && board.get(p).getColour()==player)
+      if(board.get(p) != null && board.get(p).getColour()==player)
         positions.add(p);
     }
     return positions;
@@ -104,12 +104,7 @@ public class Board implements Cloneable, Serializable {
     boolean reverse = false;
     for(Direction d: step){
       if((piece.getColour()!=current.getColour() && piece.getType() == PieceType.PAWN) || reverse){//reverse directions for knights
-        switch(d){
-          case FORWARD: d = Direction.BACKWARD; break;
-          case BACKWARD: d = Direction.FORWARD; break;
-          case LEFT: d = Direction.RIGHT; break;
-          case RIGHT: d = Direction.LEFT; break;
-        }
+        d = d.reverse();
       }
       Position next = current.neighbour(d);
       if(next.getColour()!= current.getColour()){//need to reverse directions when switching between sections of the board
@@ -285,7 +280,9 @@ public class Board implements Cloneable, Serializable {
           captured.get(mover.getColour()).add(taken);
           if(taken.getType()==PieceType.KING) gameOver=true;
         }
-        turn = Colour.values()[(turn.ordinal()+1)%3];
+        if (!gameOver) {
+          turn = Colour.values()[(turn.ordinal()+1)%3];
+        }
       }
     }
     else throw new ImpossiblePositionException("Illegal Move: "+start+"-"+end);
@@ -410,6 +407,18 @@ public class Board implements Cloneable, Serializable {
    * **/
   public int getTimeLeft(Colour colour){
     return timeLeft.get(colour);
+  }
+
+  /** @return whether a player timed out. **/
+  public boolean isTimedOut() {
+    if (!gameOver)
+      return false;
+
+    for(Colour colour : Colour.values()){
+      if(timeLeft.get(colour) < 0)
+        return true;
+    }
+    return false;
   }
 
   /**
