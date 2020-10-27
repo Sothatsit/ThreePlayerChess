@@ -42,6 +42,8 @@ public class Agent22494652 extends Agent {
 
   /** The name of this agent. **/
   private final String name;
+  /** A time limit for Brutus to play to when there is no time limit. **/
+  private final int artificialTimeLimitSeconds;
   /** The game constants used to calculate utility in the game. **/
   private final CombinedGameConstants constants;
   /** Used to hold the initial state for each move. **/
@@ -60,7 +62,15 @@ public class Agent22494652 extends Agent {
   private final MaximaxStrategy[] strategies = new MaximaxStrategy[MAX_PLY];
 
   public Agent22494652() {
+    this(20);
+  }
+
+  /**
+   * @param artificialTimeLimitSeconds the time limit for Brutus to play to when there is no time limit.
+   */
+  public Agent22494652(int artificialTimeLimitSeconds) {
     this.name = "Brutus";
+    this.artificialTimeLimitSeconds = artificialTimeLimitSeconds;
     this.constants = CombinedGameConstants.createDefault();
     this.initialState = new GameState(constants);
     this.moveState = new GameState(constants);
@@ -70,11 +80,23 @@ public class Agent22494652 extends Agent {
     }
   }
 
+  @Override
+  public Agent22494652 clone() {
+    return new Agent22494652(artificialTimeLimitSeconds);
+  }
+
   /** @return the best available move as considered by this agent's strategy in the remaining time. **/
   @Override public Position[] playMove(Board board) {
     // Calculate the amount of time we have to spend per turn over the duration of the game.
     boolean isFirstMove = (board.getMoveCount() < 3);
     long timeLeftNanos = board.getTimeLeft(board.getTurn()) * 1_000_000L;
+
+    // If we have no time left but are being asked to make a move,
+    // then this game is not timed.
+    if (timeLeftNanos == 0) {
+      timeLeftNanos = artificialTimeLimitSeconds * 1_000_000_000L;
+    }
+
     if (isFirstMove || timeLeftNanos > gameLengthNanos) {
       gameLengthNanos = timeLeftNanos;
       nanosPerTurn = gameLengthNanos / EXPECTED_GAME_TURNS;

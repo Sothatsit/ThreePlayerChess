@@ -235,7 +235,7 @@ public class ThreeChessDisplay extends JFrame {
 
   /** @return whether the user is allowed to display the history. **/
   public boolean canDisplayHistory() {
-    return board.getMoveCount() > 0 && (board.gameOver() || waitingForManualMove());
+    return board.getMoveCount() > 0 && board.gameOver();
   }
 
   /** @return the board that should currently be rendered. **/

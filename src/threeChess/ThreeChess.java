@@ -40,7 +40,10 @@ public class ThreeChess {
 
     String argument = args[0];
     if (args.length == 1) {
-      if ("tournament".equalsIgnoreCase(argument)) {
+      if ("challenge".equalsIgnoreCase(argument)) {
+        challengeBrutus();
+        return;
+      } else if ("tournament".equalsIgnoreCase(argument)) {
         runTournament();
         return;
       } else if ("genetic".equalsIgnoreCase(argument)) {
@@ -58,6 +61,28 @@ public class ThreeChess {
     Agent[] agents = selectThreeAgents();
     int numGames = 1;
     int timeLimitSeconds = 10;
+    int maximumTurns = 0;
+    int pauseMS = 1000;
+    int threads = 1;
+    boolean displayOn = true;
+    Tournament tournament = new Tournament(
+        agents, numGames, timeLimitSeconds, maximumTurns,
+        pauseMS, threads, System.out, displayOn
+    );
+    tournament.runTournament();
+  }
+
+  /**
+   * Runs a single game between two brutus agents and you.
+   */
+  public static void challengeBrutus() {
+    Agent[] agents = new Agent[] {
+        new GUIAgent("Human"),
+        new Agent22494652(),
+        new Agent22494652()
+    };
+    int numGames = 1;
+    int timeLimitSeconds = 0;
     int maximumTurns = 0;
     int pauseMS = 1000;
     int threads = 1;

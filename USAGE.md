@@ -12,6 +12,13 @@ it will create a bin directory to compile the program's class files into.
 
 ## Running ThreeChess
 
+### Challenge Brutus
+The following command can be used to play against two Brutus agents,
+```
+java -cp bin/ threeChess.ThreeChess challenge
+```
+
+
 ### Single Game
 The following command can be used to run a single game between three random agents,
 ```

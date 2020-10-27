@@ -254,7 +254,7 @@ public class Game implements Runnable {
 
     // Play the move on the board.
     try {
-      board.move(move[0], move[1], (int) durationMS);
+      board.move(move[0], move[1], (int) (isTimed ? durationMS : 0));
       log(turnColour + ": " + move[0] + '-' + move[1] + " t:" + durationMS);
       repaint();
     } catch (ImpossiblePositionException e) {
