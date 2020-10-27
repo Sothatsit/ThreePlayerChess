@@ -16,12 +16,11 @@ This project is my submission for the CITS3001 unit at UWA where we were tasked 
   ([GameLogic.java](src/threeChess/agents/GameLogic.java)). \
   It quickly evaluates moves, finds available moves, and iteratively updates utility as moves are made.
 
-#### Submission:
-The tournament required us to submit only a single source file. Therefore, the above \
-classes were combined into the single file, 
-[Agent22494652.java](src/threeChess/agents/Agent22494652.java)
-for submission. \
-This file is large and hard to navigate, so I would suggest looking at the individual classes above instead.
+**Submission:** \
+The tournament required us to submit only a single source file. Therefore, the above classes \
+were combined into the single file, [Agent22494652.java](src/threeChess/agents/Agent22494652.java)
+for submission. This file is large \
+and hard to navigate, so I would suggest looking at the individual classes above instead.
 
 
 # ♞ Usage ♞
