@@ -1,11 +1,36 @@
-# threeChess
-An AI framework for playing three player chess, as part of the CITS3001 unit at UWA
+# Three-Player Chess
+
+This project is my submission for the CITS3001 unit at UWA where we were tasked to make an AI to play three-player chess.
+
+#### The final agent I submitted is a combination of the following:
+
+- The `AgentBrutus` class is the manager of the AI
+([AgentBrutus.java](https://github.com/Sothatsit/ThreePlayerChess/blob/master/src/threeChess/agents/AgentBrutus.java)). \
+  It uses iterative deepening to dynamically allocate how much time to spend searching for each move.
+
+- The `MaximaxStrat` class holds the brains of the AI
+  ([MaximaxStrat.java](https://github.com/Sothatsit/ThreePlayerChess/blob/master/src/threeChess/agents/strategy/MaximaxStrat.java)). \
+  It decides which moves are the best moves to take from any state.
+
+- The `GameLogic` class is the muscle of the AI
+  ([GameLogic.java](https://github.com/Sothatsit/ThreePlayerChess/blob/master/src/threeChess/agents/GameLogic.java)). \
+  It quickly evaluates moves, finds available moves, and iteratively updates utility as moves are made.
+
+#### Submission:
+The tournament required us to submit only a single source file. Therefore, the above \
+classes were combined into the single file, 
+[Agent22494652.java](https://github.com/Sothatsit/ThreePlayerChess/blob/master/src/threeChess/agents/Agent22494652.java)
+for submission. \
+This file is large and hard to navigate, so I would suggest looking at the individual classes above instead.
+
 
 # Project
 
-## Three Chess
+An AI framework for playing three player chess, as part of the CITS3001 unit at UWA.
 
-![](init.png)
+See the parent repository at [drtnf/threeChess](https://github.com/drtnf/threeChess).
+
+## Three Chess
 
 The project will require you to research, implement and validate artifical intelligence for the board game ThreeChess. ThreeChess is a variation of chess played on a special board between three players, with the colours Blue, Green and Red. Each player takes turns moving their pieces, where the available moves depend on the type of piece. If your piece lands on a square occupied by an opponent's piece, the opponent's piece is removed from the board (captured) and the goal is to take one of your opponents' King. When a King is taken the game ends, and the person who took the King is the winner, the person who lost the King is the loser, and the third player neither wins nor loses.
 

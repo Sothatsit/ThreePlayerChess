@@ -33,3 +33,6 @@ src/threeChess/agents/
 /.idea/threeChess.iml
 /threeChess.iml
 /.idea/vcs.xml
+
+# Output files
+/bin
